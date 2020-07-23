@@ -14,11 +14,12 @@ const completedWord = document.querySelector('.complete')
 const highlightedLetter = document.querySelector('.highlight')
 
 function startGame() {
-    console.log('works')
+    typeArea.disabled = true
     quoteBody.textContent = 'Fetching quote...'
     typeArea.placeholder = ''
     completedWord.textContent = ''
     highlightedLetter.textContent = ''
+    
     currLetterIndex = 0
     ind = 0
     fetch(quotes)
@@ -104,6 +105,7 @@ function gameCountdown(timeTillStart) {
         const secondsLeft = Math.round((then - Date.now()) / 1000 )
         if(secondsLeft <= 0) {
             timer.textContent = '00:00' //sets the timer to 0 manually so it doesnt get stuck at :01
+            typeArea.disabled = false
             typeArea.focus()
             // dont clear timeout here, we use the negatives to count upwards
         }
