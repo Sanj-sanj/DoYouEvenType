@@ -14,8 +14,10 @@ const completedWord = document.querySelector('.complete')
 const highlightedLetter = document.querySelector('.highlight')
 
 function startGame() {
+    clearInterval(countdown)
     typeArea.disabled = true
     quoteBody.textContent = 'Fetching quote...'
+    typeArea.value = ''
     typeArea.placeholder = ''
     completedWord.textContent = ''
     highlightedLetter.textContent = ''
@@ -98,12 +100,12 @@ function typeChecker(e) {
 }
 
 function gameCountdown(timeTillStart) {
-    clearInterval(countdown)
+    // clearInterval(countdown)
     const now = Date.now();
     const then = now + timeTillStart
     countdown = setInterval(() => {
         const secondsLeft = Math.round((then - Date.now()) / 1000 )
-        if(secondsLeft <= 0) {
+        if(secondsLeft == 0) {
             timer.textContent = '00:00' //sets the timer to 0 manually so it doesnt get stuck at :01
             typeArea.disabled = false
             typeArea.focus()
@@ -143,11 +145,9 @@ function endGame(res) {
     console.log(res)
     typeArea.placeholder = 'Play again?'
     if(res.cleared == false) {
-        alert('bruh')
-        return;
+        return alert('bruh');
     }
     if(res.cleared == true) {
-        alert('Congrats!')
-        return;
+        return alert('Congrats!');
     }
 }
