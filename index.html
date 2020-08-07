@@ -7,22 +7,29 @@
     <title>Do you even type?</title>
 </head>
 <body>
+    <div class="nav-bar">
+        <h1>TypeRacer-type clone</h1>
+    </div>
     <div class="container">
-        <div class="nav-bar">
-            <h1>TypeRacer-type clone</h1>
-        </div>
         <div class="main">
             <section class="display-quote">
                 <div class="game-status">
-                    <h4 class="display quote-author"></h3>
-                    <p class="timer">00:00</p>
+                    <div class="quote-info">
+                        <p class="display quote-author">Original Speaker:</p>
+                        <p class="addressing"></p>
+                    </div>
+                    <p class="timer">Time: 00:00</p>
+                </div>
+                <hr>
+                <div class="progress-meter">
+                    <div class="progress-bar"></div>
                 </div>
                 <div class="quote-box">
                     
                     <p class="display quote-text"><span class="complete"></span><span class="highlight"></span>Start a game to load a quote!</p>
                 </div>
             </section>
-            <section class="player-info-panel">
+            <section class="player-controls">
                 <div class="wpm">
                     <p class="user-wpm">Begin a game to calculate.</p>
                 </div>
@@ -34,6 +41,43 @@
                 <input type="text" class="type-area" id="">
 
             </section>
+        </div>
+
+        <div class="main main-two">
+            <div class="title-greet">
+                <h3>Stats & Settings</h3>
+                <p class="player">Welcome Sanjeet!</p>
+            </div>
+            <div class="stats">
+                <h4 class="">Choose your preference:</h4>
+                <select class="quote-select" id="" placeholder="default">
+                    <option value="default">Default (Mixed)</option>
+                    <option value="inspiration">Inspirational</option>
+                    <option value="naruto">Naruto</option>
+                </select>
+            <hr>
+                <h4 class="display-mode">Display mode:</h4>
+                <input type="radio" name="display-mode" value="paragraph" checked>
+                <label for="paragraph">Paragraph</label>
+                <input type="radio" name="display-mode" value="single-line" >
+                <label for="paragraph">single-line</label>
+            <hr>
+                <div class="row-stats">
+                    <h4 class="average">Session Average: </h4><p class="session-average"> 0 WPM</p>
+                </div>
+            <hr>
+                <div class="row-stats">
+                    <h4 class="average">Daily Average: </h4><p class="average">54 WPM</p>
+                </div>
+            <hr>
+                <div class="row-stats">
+                    <h4 class="average">Historic Best: </h4><p class="best">54 WPM</p>
+                </div>
+            <hr>
+                <div class="row-stats">
+                    <h4 class="history">History: </h4>
+                </div>
+            </div>
         </div>
     </div>
     <script src="./app.js"></script>
