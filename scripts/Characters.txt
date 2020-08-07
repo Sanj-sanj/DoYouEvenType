@@ -1,0 +1,33 @@
+Naruto Uzumaki 
+Sasuke Uchiha 
+
+"Naruto Uzumaki ,Sasuke Uchiha ,Kakashi Hatake ,Sakura Haruno ,Jiraiya: ,Ebisu,Gaara,Iruka Umino: ,Hinata Hyuga,Rock Lee ,Minato Namikaze,Kushina Uzumaki,Orochimaru ,Zabuza Momochi ,Haku ,Nagato,Hidan: ,Deidara,Kabuto Yakushi,Kisame Hoshigaki,Itachi Uchiha ,Black Zetsu ,White Zetsu,Danzo Shimura,Obito Uchiha,Sasori"
+
+ul > className="q-box" > li className="q-relative" > span[0] textContent
+
+Naruto Uzumaki 
+Sasuke Uchiha 
+Kakashi Hatake 
+Sakura Haruno 
+Jiraiya
+Ebisu
+Gaara
+Iruka Umino
+Hinata Hyuga
+Rock Lee 
+Minato Namikaze
+Kushina Uzumaki
+Orochimaru 
+Zabuza Momochi 
+Haku
+Nagato
+Hidan
+Deidara
+Kabuto Yakushi
+Kisame Hoshigaki
+Itachi Uchiha 
+Black Zetsu
+White Zetsu
+Danzo Shimura
+Obito Uchiha
+Sasori
