@@ -2,7 +2,7 @@
   "name": "src",
   "version": "1.0.0",
   "description": "It's a typeracer clone.",
-  "main": "app.js",
+  "main": "index.html",
   "scripts": {
     "start": "index.html"
   },
