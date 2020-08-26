@@ -48,7 +48,7 @@ h3,h4,h5, .main-two.main{
 .player{
     margin: 0;
 }
-.stats {
+.preferences {
     /* display: none; */
     /* display: flex; */
 }
@@ -92,15 +92,26 @@ section {
     display: flex;
     font-size: larger;
 }
+.quote-box {
+        /* justify-content: center; */
+        font-size: 20px;
+        align-items: center;
+        margin: 1em 0em;
+        padding: .5vh;
+        border: #a59e9e 2px solid;
+        border-radius: .3em;
+        overflow: hidden;
+        /* width: 75%; */
+}
 .quote-text {
     /* justify-content: center; */
-    font-size: 20px;
+    /* font-size: 20px;
     align-items: center;
     margin: 1em 0em;
     padding: .5vh;
     border: #a59e9e 2px solid;
     border-radius: .3em;
-    /* width: 75%; */
+    width: 75%; */
 }
 .player-controls {
     display: flex;

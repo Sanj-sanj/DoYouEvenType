@@ -27,13 +27,14 @@ function formatForReadability(textBody, name) {
     let quoteText = ''
     let addressing = ''
     let passages = []
-    const addressingRegex = /^[(].+[)]\s/g
+    //this regex needs to be fixed see sakura id 6
+    const addressingRegex = /^[(].+?[)] /g
     const excessQuotesRegex = /(["|\s]+$)|(^[\W]+)/gm
     textBody[0].split('[').forEach(function formating(line, i) {
         //this function splits the usable array to multiple lines, if theres more than one line,
         //remove the [0] index (which is just usually something like 323]\n) then join them back together.
         const splitPassage = line.split('\n')
-        const id = i.toString()
+        const _id = i.toString()
 
         if(splitPassage.length > 1) {
             splitPassage.splice(0,1)
@@ -49,7 +50,7 @@ function formatForReadability(textBody, name) {
         if(quoteText == null) {
             return
         }
-        passages.push({ quoteAuthor, addressing, quoteText, id })
+        passages.push({ quoteAuthor, addressing, quoteText, _id })
 
     })
     ultimatArray.push(passages)
@@ -78,7 +79,7 @@ function formatForReadability(textBody, name) {
 
 function writeToFile(arr) {
     try {
-        fs.writeFileSync('naruto_passages.json', JSON.stringify(arr, null, 2))
+        fs.writeFileSync('naruto_passages2.json', JSON.stringify(arr, null, 2))
     } catch (err) {
         console.log(err)
     }

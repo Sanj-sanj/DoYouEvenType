@@ -13,8 +13,10 @@ function deepJS() {
     let currLetterIndex = 0
     let gameBegins = false
     let state = {}
+    let viewStyle
 
     const finish = gameOver()
+    
     const quotes = 'https://quote-garden.herokuapp.com/api/v2/quotes/random';
     const displayAuthor = document.querySelector('.quote-author')
     const displayText = document.querySelector('.quote-text')
@@ -28,9 +30,26 @@ function deepJS() {
     const progress = document.querySelector('.progress-bar')
 
     const sesAverage = document.querySelector('.session-average')
+    
+    
+    return publicAPI /* ---------------------------------------------------------------------------------- */
+    
+    function displayMode() {
+        const viewStyle = document.querySelectorAll('.view input[name="display-mode"]')
 
-
-return publicAPI /* ---------------------------------------------------------------------------------- */
+        viewStyle.forEach(selection => {
+            if(selection.checked == true) {
+                viewMode = selection.value
+            }
+        })
+        if(viewMode == 'single') {
+            displayText.style.width = 'max-content'
+        }
+        else if(viewMode == 'multi') {
+            displayText.style.width = '100%'
+        }
+        return viewMode
+    }
 
     function gameMode() {
         const modes = [normalMode, narutoMode]
@@ -44,6 +63,7 @@ return publicAPI /* ------------------------------------------------------------
 
     function setupGame() {
         clearInterval(countdown)
+        const mode = gameMode()
         gameBegins = false
         typeArea.disabled = true
         quoteBody.textContent = 'Fetching quote...'
@@ -54,15 +74,14 @@ return publicAPI /* ------------------------------------------------------------
         showWPM.textContent = "Begin a game to calculate."
         progress.style.width = '0%'
         progress.textContent = ''
-
+        viewStyle = displayMode()
         currLetterIndex = 0
         ind = 0
-        const mode = gameMode()
         mode == narutoMode ? setTimeout(narutoMode, Math.floor(Math.random() * 1000)) : mode() //I want to delay lol
     }
 
     function narutoMode() {
-        fetch('https://raw.githubusercontent.com/Sanj-sanj/DoYouEvenType/master/scripts/naruto_passages.json')
+        fetch('./scripts/naruto_passages2.json')
         .then(res => {
             // console.log(res)
             return res.json()
@@ -79,8 +98,8 @@ return publicAPI /* ------------------------------------------------------------
                 return setupGame()
             }
             displayToScreen()
-            typeArea.addEventListener('input', typeChecker)
-            gameCountdown(5000)
+            // typeArea.addEventListener('input', typeChecker)
+            gameCountdown(3000)
 
         })
     }
@@ -101,20 +120,22 @@ return publicAPI /* ------------------------------------------------------------
             freshQuote = resp.quote
             displayToScreen()
             //start a timer tracking the start of game till the user finishes.
-            typeArea.addEventListener('input', typeChecker)
-            gameCountdown(5000)
+            // typeArea.addEventListener('input', typeChecker)
+            gameCountdown(3000)
         })
     }
 
     function displayToScreen() {
         displayAuthor.textContent = `${freshQuote.quoteAuthor}: ${freshQuote.addressing == null ? '' : freshQuote.addressing }`
         quoteBody.textContent = freshQuote.quoteText
+        
         // addressing.textContent = freshQuote.addressing
     }
             
     function typeChecker(e) {
         let wordsToTypeArr = freshQuote.quoteText.split(' ')
         let typedWordLength = wordsToTypeArr[ind].length;
+
         //deletes entire typed entry only if the input is fully cleaned
 
         if(e.inputType == 'deleteWordBackward' ) {
@@ -142,47 +163,51 @@ return publicAPI /* ------------------------------------------------------------
         }
         //handle successful completion of word being typed
         if(e.target.value === wordsToTypeArr[ind].padEnd(typedWordLength + 1)) {
-            completedWord.insertAdjacentText('beforeend', wordsToTypeArr[ind].padEnd(typedWordLength + 1)) 
+            if(viewStyle == 'multi') {
+                completedWord.insertAdjacentText('beforeend', wordsToTypeArr[ind].padEnd(typedWordLength + 1)) 
+
+            }
             quoteBody.textContent = quoteBody.textContent.trim() 
             highlightedLetter.textContent = ''
             currLetterIndex = 0
             ind++
             typeArea.value = ''
-            // updateProg(wordsToTypeArr)
-
         }
         //handles player successfully competing the final word of the quote.
         if(wordsToTypeArr.length == ind + 1 && e.target.value == wordsToTypeArr[ind]) {
-            completedWord.insertAdjacentText('beforeend', wordsToTypeArr[ind].padEnd(typedWordLength + 1)) 
+            // completedWord.insertAdjacentText('beforeend', wordsToTypeArr[ind].padEnd(typedWordLength + 1)) 
+            completedWord.textContent = freshQuote.quoteText
             highlightedLetter.textContent = ''
             quoteBody.textContent = ''
             typeArea.value = ''
+            displayText.style.width = '100%' //reset the width to display all contnet
             clearInterval(countdown)
-            updateProg(wordsToTypeArr.length)
+            updateProg()
             //short buffer before the end to keepup with user keystrokes
             setTimeout(finish, 300, { cleared: true }) 
         }
     }
 
     function gameCountdown(timeTillStart) {
-        // clearInterval(countdown)
         displayTime(timeTillStart / 1000)
         const now = Date.now();
         const then = now + timeTillStart
         countdown = setInterval(() => {
             const secondsLeft = Math.round((then - Date.now()) / 1000 )
             if(gameBegins) {
-                calcWPM(Math.abs(secondsLeft))
+                //handle Timeout or excessive time
                 if(Math.abs(secondsLeft) == 180) {
                     clearInterval(countdown)
                     setTimeout(finish, 100, {cleared: false})
                 }
             }
-            if(secondsLeft == 0) {
-                timer.textContent = 'Time: 00:00' //sets the timer to 0 manually so it doesnt get stuck at :01
+            if(secondsLeft <= 0) {
+                // timer.textContent = 'Time: 00:00' //sets the timer to 0 manually so it doesnt get stuck at :01
+                gameBegins = true
                 typeArea.disabled = false
                 typeArea.focus()
-                gameBegins = true
+                calcWPM(Math.abs(secondsLeft))
+                typeArea.addEventListener('input', typeChecker)
                 // dont clear timeout here, we use the negatives to count upwards
             }
             displayTime(secondsLeft)
@@ -203,22 +228,29 @@ return publicAPI /* ------------------------------------------------------------
     }
 
     function calcWPM(seconds) {
-        const quoteLength = freshQuote.quoteText.split(' ').length
-        const timeElapsed = seconds / 60
-        const wpm = quoteLength / timeElapsed
-        showWPM.textContent = `WPM: ${wpm.toFixed()}.`
-        finish(wpm)
-        updateProg(quoteLength)
+        const chars = freshQuote.quoteText.length - 1
+        const charsTyped = quoteBody.textContent.length - 1
+        const CPMtoWPM = ((chars - charsTyped) / seconds) * (60 / 5)
+        showWPM.textContent = `WPM: ${isNaN(CPMtoWPM) ? '0' : CPMtoWPM.toFixed()}.`
+        finish(CPMtoWPM)
+        updateProg()
     }
 
-    function updateProg(quoteLen) {
-        // quoteLen = quoteLen.length
-        const wordsDone = completedWord.textContent.split(' ').length - 1
-        const progPercent = wordsDone / quoteLen * 100
-        progress.textContent = `${progPercent.toFixed()}%`
-        progress.style.width = `${progPercent}%`
+    function updateProg() {
+        let wordsRemain 
+        let quoteLength = freshQuote.quoteText.length
+        let lengthRemain
+        displayText.childNodes.forEach(node => { 
+            if(node.nodeName == "#text") {
+                wordsRemain = node
+                lengthRemain = wordsRemain.length
+            }
+        })
+        const progressPercent = (quoteLength - lengthRemain) / quoteLength * 100 
+        progress.textContent = `${progressPercent.toFixed()}%`
+        progress.style.width = `${progressPercent}%`
         
-        if(progress.style.width <= '004%' || wordsDone == 0) {
+        if(progress.style.width <= '004%') {
             progress.style.justifyContent = 'start'
         } else {
             progress.style.justifyContent = 'center'
@@ -229,28 +261,41 @@ return publicAPI /* ------------------------------------------------------------
         let sessionCount = 0
         let finalWPM 
         let scores = []
-
+        let record = []
+        //finish()
         function theEnd(res) {
+            // console.log(res)
             if(typeof res == 'number') {
                 finalWPM = res
                 // scores.push(finalWPM)
-                console.log(finalWPM)
+                // console.log(finalWPM)
                 return;
             }
             if(res.cleared == false) {
+                clearInterval(countdown)
+                typeArea.removeEventListener('input', typeChecker)
+                typeArea.disabled = true
+                
                 return alert('Sorry you took a hell of a lot of time!');
             }
             if(res.cleared == true) {
+                console.log(res)
+                const timeStamp = new Date()
+                const attempt = {['WPM']:finalWPM , freshQuote, timeStamp}
+                typeArea.disabled = true
+                typeArea.removeEventListener('input', typeChecker)
+                record.push(attempt)
                 scores.push(finalWPM)
                 sessionCount++
-                const sessionTally = scores.reduce((acc, curr) => {
+                const average = scores.reduce((acc, curr) => {
                     console.log(typeof acc ,typeof curr)
                     acc += curr
                     return acc
                 })
-                console.log(sessionCount, scores, sessionTally)
-                sesAverage.textContent = `${(sessionTally / sessionCount).toFixed()} WPM`
-                return alert(`Congratulations your Words per Minute is: ${finalWPM}. You completed a total of ${sessionCount} times this session!`);
+                console.log(record)
+                // console.log(av2)
+                sesAverage.textContent = `${(average / sessionCount).toFixed()} WPM`
+                return alert(`Congratulations your Words per Minute is: ${finalWPM.toFixed()}. You completed a total of ${sessionCount} quotes this session!`);
             }
             typeArea.placeholder = 'Play again?'
         }
