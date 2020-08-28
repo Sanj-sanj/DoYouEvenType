@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/Sanj-sanj/DoYouEvenType#readme",
   "dependencies": {
-    "harp": "*",
+    "harp": "^0.32.0"
+  },
+  "devDependencies": {
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "fs": "0.0.1-security"
