@@ -4,7 +4,7 @@
   "description": "It's a typeracer clone.",
   "main": "index.html",
   "scripts": {
-    "start": "DoYouEvenType/index.html"
+    "start": "harp server --port $PORT"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Sanj-sanj/DoYouEvenType#readme",
   "dependencies": {
+    "harp": "*",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "fs": "0.0.1-security"
