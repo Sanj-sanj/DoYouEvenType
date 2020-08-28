@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Sanj-sanj/DoYouEvenType#readme",
   "dependencies": {
     "harp": "^0.32.0",
-    "clean-css": "4.2.2"
+    "clean-css": "4.1.11"
   },
   "devDependencies": {
     "axios": "^0.19.2",
