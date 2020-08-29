@@ -81,7 +81,7 @@ function deepJS() {
     }
 
     function narutoMode() {
-        fetch('./scripts/naruto_passages2.json')
+        fetch('/script/naruto_passages2.json')
         .then(res => {
             // console.log(res)
             return res.json()

@@ -18,13 +18,13 @@
   },
   "homepage": "https://github.com/Sanj-sanj/DoYouEvenType#readme",
   "dependencies": {
-    "harp": "^0.32.0",
-    "clean-css": "4.2.2"
+    "express": "^4.17.1",
+    "path": "^0.12.7",
+    "pug": "^3.0.0"
   },
   "devDependencies": {
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
-    "fs": "0.0.1-security",
-    "cli": "1.0.1"
+    "fs": "0.0.1-security"
   }
 }
