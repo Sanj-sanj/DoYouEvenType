@@ -20,7 +20,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "path": "^0.12.7",
-    "pug": "^3.0.0"
+    "pug": "^3.0.1"
   },
   "devDependencies": {
     "axios": "^0.19.2",
